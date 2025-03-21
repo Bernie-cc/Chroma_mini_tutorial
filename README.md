@@ -1,6 +1,6 @@
 # Unlocking the Power of Vector Search with Chroma: A Mini-Tutorial for Movie Recommendations
 
-**For the assignemnt 3, I choose MLOps Tool Option and Chroma is tool I want to write about.**
+**For the assignemnt 3, I choose MLOps Tool Option and Chroma is tool I want to write about. You can find the demo code and more details in this GitHub repository [Chroma_mini_tutorial](https://github.com/Bernie-cc/Chroma_mini_tutorial#)**
 
 Machine learning systems have transformed how we interact with data, with vector embeddings playing a crucial role in tasks like recommendation systems, semantic search, and natural language processing. However, managing and querying these high-dimensional embeddings in production systems remains a challenge. Enter Chroma, an open-source vector database designed to simplify and supercharge your ML workflows.
 
@@ -195,7 +195,7 @@ Chroma is an excellent choice for teams looking to manage vector embeddings effe
 
 In this blog post, we introduced Chroma, a powerful open-source vector database, and demonstrated how to use it to build a content-based movie recommendation system. With Chroma, managing embeddings and performing similarity searches becomes fast and efficient, making it an invaluable tool for production ML systems.
 
-If you’re looking for a lightweight and intuitive solution to handle embeddings, give Chroma a try! You can find its documentation and source code on [GitHub](https://github.com/Bernie-cc/Chroma_mini_tutorial#).
+If you’re looking for a lightweight and intuitive solution to handle embeddings, give Chroma a try! 
 
 ## References
 

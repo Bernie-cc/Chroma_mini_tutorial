@@ -107,8 +107,7 @@ import chromadb
 from chromadb.config import Settings
 
 # Initialize Chroma
-client = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="./chroma_db"))
-
+client = chromadb.PersistentClient(path="./chroma_db")
 # Create a collection for movies
 collection = client.get_or_create_collection("movies")
 
@@ -158,11 +157,6 @@ results = collection.query(
     query_embeddings=[query_embedding],
     n_results=3,
     where={"genre": "Drama"}  
-)
-
-results = collection.query(
-    query_embeddings=[query_embedding],
-    n_results=3
 )
 
 # Print the recommendations

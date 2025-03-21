@@ -1,5 +1,6 @@
-
 # Unlocking the Power of Vector Search with Chroma: A Mini-Tutorial for Movie Recommendations
+
+**For the assignemnt 3, I choose MLOps Tool Option and Chroma is tool I want to write about.**
 
 Machine learning systems have transformed how we interact with data, with vector embeddings playing a crucial role in tasks like recommendation systems, semantic search, and natural language processing. However, managing and querying these high-dimensional embeddings in production systems remains a challenge. Enter Chroma, an open-source vector database designed to simplify and supercharge your ML workflows.
 
@@ -39,15 +40,45 @@ Before we start, ensure you have the following installed:
 
 **Step 1: Data Preparation**
 
-We’ll use a small dataset of movies with their titles and descriptions.
+We’ll use a small dataset of movies with their titles, descriptions, year and genres.
 
 ```python
 movies = [
-    {"id": "1", "title": "Inception", "description": "A thief who steals secrets through dreams."},
-    {"id": "2", "title": "The Matrix", "description": "A hacker discovers the truth about his reality."},
-    {"id": "3", "title": "Interstellar", "description": "A team of explorers travels through a wormhole in space."},
-    {"id": "4", "title": "The Social Network", "description": "The story of Facebook's creation."},
-    {"id": "5", "title": "The Godfather", "description": "The saga of a crime family."}
+    {
+        "id": "1",
+        "title": "Inception",
+        "description": "A mind-bending thriller about dreams.",
+        "genre": "Sci-Fi",
+        "year": 2010
+    },
+    {
+        "id": "2",
+        "title": "The Matrix",
+        "description": "A hacker discovers the truth about reality.",
+        "genre": "Sci-Fi",
+        "year": 1999
+    },
+    {
+        "id": "3",
+        "title": "The Godfather",
+        "description": "The saga of a crime family.",
+        "genre": "Crime",
+        "year": 1972
+    },
+    {
+        "id": "4",
+        "title": "Interstellar",
+        "description": "A team of explorers travels through a wormhole.",
+        "genre": "Sci-Fi",
+        "year": 2014
+    },
+    {
+        "id": "5",
+        "title": "The Social Network",
+        "description": "The story of Facebook's creation.",
+        "genre": "Drama",
+        "year": 2010
+    }
 ]
 ``` 
 
@@ -85,7 +116,7 @@ collection = client.get_or_create_collection("movies")
 for movie in movies:
     collection.add(
         ids=[movie["id"]],
-        metadatas=[{"title": movie["title"]}],
+        metadatas=[{"title": movie["title"], "genre": movie["genre"], "year": movie["year"]}],
         embeddings=[movie["embedding"]]
     )
 ```
@@ -107,15 +138,39 @@ results = collection.query(
 # Print the recommendations
 for title in results["metadatas"][0]:
     print(f"Recommended Movie: {title['title']}")
+
+
+# Output:
+# Recommended Movie: Inception
+# Recommended Movie: Interstellar
+# Recommended Movie: The Matrix
 ```
 
-Output:
-For the query "A mind-bending thriller about dreams.", the system might recommend:
+**Step 5: Query the Database with filter**
 
-``` python
-Recommended Movie: Inception
-Recommended Movie: Interstellar
-Recommended Movie: The Matrix
+
+```python
+query = "A story of friendship and ambition."
+query_embedding = model.encode(query)
+
+# query with metadata filter
+results = collection.query(
+    query_embeddings=[query_embedding],
+    n_results=3,
+    where={"genre": "Drama"}  
+)
+
+results = collection.query(
+    query_embeddings=[query_embedding],
+    n_results=3
+)
+
+# Print the recommendations
+for title in results["metadatas"][0]:
+    print(f"Recommended Movie: {title['title']} ({title['year']})")
+
+## Output
+# Recommended Movie: The Social Network (2010)
 ```
 
 ## Strengths and Limitations of Chroma
@@ -140,4 +195,9 @@ Chroma is an excellent choice for teams looking to manage vector embeddings effe
 
 In this blog post, we introduced Chroma, a powerful open-source vector database, and demonstrated how to use it to build a content-based movie recommendation system. With Chroma, managing embeddings and performing similarity searches becomes fast and efficient, making it an invaluable tool for production ML systems.
 
-If you’re looking for a lightweight and intuitive solution to handle embeddings, give Chroma a try! You can find its documentation and source code on GitHub.
+If you’re looking for a lightweight and intuitive solution to handle embeddings, give Chroma a try! You can find its documentation and source code on [GitHub](https://github.com/Bernie-cc/Chroma_mini_tutorial#).
+
+## References
+
+- [Chroma Documentation](https://www.trychroma.com/docs)
+- [Chroma GitHub Repository](https://github.com/chroma-core/chroma)
